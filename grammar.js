@@ -40,7 +40,7 @@ const SCISSORS =
   /HG: -+ >8 -+\r?\nHG: Do not touch the line above.\r?\nHG: Everything below will be removed.\r?\n?/;
 
 module.exports = grammar({
-  name: "hg_commit",
+  name: "hgcommit",
 
   extras: ($) => [WHITE_SPACE],
 

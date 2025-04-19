@@ -1,0 +1,38 @@
+{
+  "$schema": "https://tree-sitter.github.io/tree-sitter/assets/schemas/config.schema.json",
+  "grammars": [
+    {
+      "name": "hgcommit",
+      "camelcase": "HgCommit",
+      "title": "hg-commit",
+      "scope": "source.hgcommit",
+      "file-types": [
+        "hgcommit"
+      ],
+      "injection-regex": "^hgcommit$",
+      "class-name": "TreeSitterHgcommit"
+    }
+  ],
+  "metadata": {
+    "version": "0.1.0",
+    "license": "MIT",
+    "description": "Parser for hgcommit filetype",
+    "authors": [
+      {
+        "name": "Zeger Van de Vannet"
+      }
+    ],
+    "links": {
+      "repository": "https://github.com/tree-sitter/tree-sitter-hgcommit"
+    }
+  },
+  "bindings": {
+    "c": true,
+    "go": true,
+    "node": true,
+    "python": true,
+    "rust": true,
+    "swift": true,
+    "zig": false
+  }
+}

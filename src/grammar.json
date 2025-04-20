@@ -2,307 +2,107 @@
   "$schema": "https://tree-sitter.github.io/tree-sitter/assets/schemas/grammar.schema.json",
   "name": "hgcommit",
   "rules": {
-    "source": {
+    "source_file": {
       "type": "SEQ",
       "members": [
         {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "CHOICE",
-              "members": [
-                {
-                  "type": "SYMBOL",
-                  "name": "comment"
-                },
-                {
-                  "type": "SYMBOL",
-                  "name": "subject"
-                }
-              ]
-            },
-            {
-              "type": "BLANK"
-            }
-          ]
-        },
-        {
-          "type": "REPEAT",
-          "content": {
-            "type": "SYMBOL",
-            "name": "_body_line"
-          }
-        },
-        {
-          "type": "REPEAT",
-          "content": {
-            "type": "SYMBOL",
-            "name": "_trailer"
-          }
-        },
-        {
-          "type": "REPEAT",
-          "content": {
-            "type": "SEQ",
-            "members": [
-              {
-                "type": "SYMBOL",
-                "name": "_newline"
-              },
-              {
-                "type": "CHOICE",
-                "members": [
-                  {
-                    "type": "SYMBOL",
-                    "name": "comment"
-                  },
-                  {
-                    "type": "BLANK"
-                  }
-                ]
-              }
-            ]
-          }
-        },
-        {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "SEQ",
-              "members": [
-                {
-                  "type": "SYMBOL",
-                  "name": "scissors"
-                },
-                {
-                  "type": "CHOICE",
-                  "members": [
-                    {
-                      "type": "ALIAS",
-                      "content": {
-                        "type": "SYMBOL",
-                        "name": "_rest"
-                      },
-                      "named": true,
-                      "value": "message"
-                    },
-                    {
-                      "type": "BLANK"
-                    }
-                  ]
-                }
-              ]
-            },
-            {
-              "type": "BLANK"
-            }
-          ]
-        }
-      ]
-    },
-    "scissors": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "PATTERN",
-          "value": "HG: -+ >8 -+\\r?\\n"
-        },
-        {
-          "type": "REPEAT",
-          "content": {
-            "type": "SYMBOL",
-            "name": "comment"
-          }
-        }
-      ]
-    },
-    "subject": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "PATTERN",
-          "value": "[^#\\r\\n]"
-        },
-        {
-          "type": "REPEAT",
-          "content": {
-            "type": "PATTERN",
-            "value": "[^\\n\\r]+"
-          }
-        }
-      ]
-    },
-    "_body_line": {
-      "type": "PREC_RIGHT",
-      "value": 1,
-      "content": {
-        "type": "SEQ",
-        "members": [
-          {
-            "type": "SYMBOL",
-            "name": "_newline"
-          },
-          {
-            "type": "CHOICE",
-            "members": [
-              {
-                "type": "CHOICE",
-                "members": [
-                  {
-                    "type": "SYMBOL",
-                    "name": "message"
-                  },
-                  {
-                    "type": "SYMBOL",
-                    "name": "comment"
-                  }
-                ]
-              },
-              {
-                "type": "BLANK"
-              }
-            ]
-          }
-        ]
-      }
-    },
-    "_trailer": {
-      "type": "PREC",
-      "value": 3,
-      "content": {
-        "type": "SEQ",
-        "members": [
-          {
-            "type": "SYMBOL",
-            "name": "_newline"
-          },
-          {
-            "type": "SYMBOL",
-            "name": "trailer"
-          }
-        ]
-      }
-    },
-    "message": {
-      "type": "CHOICE",
-      "members": [
-        {
-          "type": "SEQ",
-          "members": [
-            {
-              "type": "PATTERN",
-              "value": "[\\t\\f\\v ]+"
-            },
-            {
-              "type": "REPEAT",
-              "content": {
-                "type": "SYMBOL",
-                "name": "_text"
-              }
-            }
-          ]
-        },
-        {
-          "type": "SEQ",
-          "members": [
-            {
-              "type": "CHOICE",
-              "members": [
-                {
-                  "type": "SYMBOL",
-                  "name": "user"
-                },
-                {
-                  "type": "SYMBOL",
-                  "name": "commit"
-                },
-                {
-                  "type": "SYMBOL",
-                  "name": "_non_punctuated_word"
-                },
-                {
-                  "type": "SYMBOL",
-                  "name": "_non_comment"
-                }
-              ]
-            },
-            {
-              "type": "REPEAT",
-              "content": {
-                "type": "SYMBOL",
-                "name": "_text"
-              }
-            }
-          ]
-        }
-      ]
-    },
-    "_text": {
-      "type": "CHOICE",
-      "members": [
-        {
           "type": "SYMBOL",
-          "name": "user"
+          "name": "title"
         },
         {
-          "type": "SYMBOL",
-          "name": "item"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "commit"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "_word"
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "section"
+          }
         }
       ]
     },
     "comment": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "STRING",
-          "value": "HG:"
-        },
-        {
+      "type": "PATTERN",
+      "value": "HG: .*"
+    },
+    "text": {
+      "type": "PATTERN",
+      "value": "[^\\n]+"
+    },
+    "section_key": {
+      "type": "TOKEN",
+      "content": {
+        "type": "PREC",
+        "value": 1,
+        "content": {
           "type": "CHOICE",
           "members": [
             {
-              "type": "SYMBOL",
-              "name": "_comment_body"
+              "type": "STRING",
+              "value": "Summary"
             },
             {
-              "type": "BLANK"
+              "type": "STRING",
+              "value": "Test Plan"
+            },
+            {
+              "type": "STRING",
+              "value": "Reviewers"
+            },
+            {
+              "type": "STRING",
+              "value": "Subscribers"
+            },
+            {
+              "type": "STRING",
+              "value": "Tasks"
+            },
+            {
+              "type": "STRING",
+              "value": "Tags"
+            },
+            {
+              "type": "STRING",
+              "value": "Privacy Context Container"
+            },
+            {
+              "type": "STRING",
+              "value": " Differential Revision"
+            },
+            {
+              "type": "STRING",
+              "value": "Reviewed By"
+            },
+            {
+              "type": "STRING",
+              "value": "Dependencies"
+            },
+            {
+              "type": "STRING",
+              "value": "GSD Projects"
             }
           ]
         }
-      ]
+      }
     },
-    "_comment_body": {
-      "type": "CHOICE",
-      "members": [
-        {
-          "type": "SYMBOL",
-          "name": "meta"
-        },
-        {
-          "type": "REPEAT1",
-          "content": {
+    "section_value": {
+      "type": "REPEAT1",
+      "content": {
+        "type": "CHOICE",
+        "members": [
+          {
             "type": "SYMBOL",
-            "name": "change"
-          }
-        },
-        {
-          "type": "REPEAT1",
-          "content": {
+            "name": "text"
+          },
+          {
             "type": "SYMBOL",
-            "name": "_word"
+            "name": "comment"
           }
-        }
-      ]
+        ]
+      }
     },
-    "trailer": {
+    "title": {
+      "type": "SYMBOL",
+      "name": "section_value"
+    },
+    "section": {
       "type": "SEQ",
       "members": [
         {
@@ -310,338 +110,40 @@
           "name": "key",
           "content": {
             "type": "SYMBOL",
-            "name": "trailer_key"
+            "name": "section_key"
           }
         },
         {
           "type": "FIELD",
           "name": "separator",
           "content": {
-            "type": "CHOICE",
-            "members": [
-              {
-                "type": "STRING",
-                "value": ":"
-              },
-              {
-                "type": "STRING",
-                "value": "="
-              }
-            ]
+            "type": "STRING",
+            "value": ":"
           }
         },
         {
           "type": "FIELD",
           "name": "value",
           "content": {
-            "type": "SYMBOL",
-            "name": "trailer_value"
-          }
-        }
-      ]
-    },
-    "trailer_key": {
-      "type": "SYMBOL",
-      "name": "_word"
-    },
-    "trailer_value": {
-      "type": "REPEAT1",
-      "content": {
-        "type": "CHOICE",
-        "members": [
-          {
-            "type": "SYMBOL",
-            "name": "user"
-          },
-          {
-            "type": "SYMBOL",
-            "name": "item"
-          },
-          {
-            "type": "SYMBOL",
-            "name": "commit"
-          },
-          {
-            "type": "SYMBOL",
-            "name": "_word"
-          }
-        ]
-      }
-    },
-    "meta": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "FIELD",
-          "name": "key",
-          "content": {
-            "type": "SYMBOL",
-            "name": "meta_key"
-          }
-        },
-        {
-          "type": "STRING",
-          "value": ":"
-        },
-        {
-          "type": "FIELD",
-          "name": "value",
-          "content": {
-            "type": "SYMBOL",
-            "name": "meta_value"
-          }
-        }
-      ]
-    },
-    "meta_key": {
-      "type": "SYMBOL",
-      "name": "_word"
-    },
-    "meta_value": {
-      "type": "REPEAT1",
-      "content": {
-        "type": "SYMBOL",
-        "name": "_word"
-      }
-    },
-    "change": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "FIELD",
-          "name": "kind",
-          "content": {
             "type": "CHOICE",
             "members": [
               {
-                "type": "STRING",
-                "value": "added"
+                "type": "SYMBOL",
+                "name": "section_value"
               },
               {
-                "type": "STRING",
-                "value": "changed"
-              },
-              {
-                "type": "STRING",
-                "value": "removed"
+                "type": "BLANK"
               }
             ]
           }
-        },
-        {
-          "type": "SYMBOL",
-          "name": "path"
-        },
-        {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "SEQ",
-              "members": [
-                {
-                  "type": "TOKEN",
-                  "content": {
-                    "type": "PREC",
-                    "value": 2,
-                    "content": {
-                      "type": "STRING",
-                      "value": "->"
-                    }
-                  }
-                },
-                {
-                  "type": "SYMBOL",
-                  "name": "path"
-                }
-              ]
-            },
-            {
-              "type": "BLANK"
-            }
-          ]
         }
       ]
-    },
-    "commit": {
-      "type": "PATTERN",
-      "value": "[a-f0-9]{7,40}"
-    },
-    "_non_punctuated_word": {
-      "type": "TOKEN",
-      "content": {
-        "type": "PREC",
-        "value": -1,
-        "content": {
-          "type": "PATTERN",
-          "value": "[-\\w]+"
-        }
-      }
-    },
-    "_non_comment": {
-      "type": "TOKEN",
-      "content": {
-        "type": "PREC",
-        "value": -2,
-        "content": {
-          "type": "PATTERN",
-          "value": "[^#\\s]+"
-        }
-      }
-    },
-    "_any_word": {
-      "type": "TOKEN",
-      "content": {
-        "type": "PREC",
-        "value": -3,
-        "content": {
-          "type": "PATTERN",
-          "value": "\\S+"
-        }
-      }
-    },
-    "_word": {
-      "type": "PREC",
-      "value": -1,
-      "content": {
-        "type": "CHOICE",
-        "members": [
-          {
-            "type": "SYMBOL",
-            "name": "_non_punctuated_word"
-          },
-          {
-            "type": "SYMBOL",
-            "name": "_non_comment"
-          },
-          {
-            "type": "SYMBOL",
-            "name": "_any_word"
-          }
-        ]
-      }
-    },
-    "branch": {
-      "type": "PATTERN",
-      "value": "[^\\.\\s']+"
-    },
-    "rebase_command": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "STRING",
-              "value": "pick"
-            },
-            {
-              "type": "STRING",
-              "value": "edit"
-            },
-            {
-              "type": "STRING",
-              "value": "squash"
-            },
-            {
-              "type": "STRING",
-              "value": "merge"
-            },
-            {
-              "type": "STRING",
-              "value": "fixup"
-            },
-            {
-              "type": "STRING",
-              "value": "drop"
-            },
-            {
-              "type": "STRING",
-              "value": "reword"
-            },
-            {
-              "type": "STRING",
-              "value": "exec"
-            },
-            {
-              "type": "STRING",
-              "value": "label"
-            },
-            {
-              "type": "STRING",
-              "value": "reset"
-            }
-          ]
-        },
-        {
-          "type": "REPEAT1",
-          "content": {
-            "type": "PATTERN",
-            "value": "\\S+"
-          }
-        }
-      ]
-    },
-    "path": {
-      "type": "REPEAT1",
-      "content": {
-        "type": "TOKEN",
-        "content": {
-          "type": "PREC",
-          "value": 1,
-          "content": {
-            "type": "PATTERN",
-            "value": "\\S+"
-          }
-        }
-      }
-    },
-    "item": {
-      "type": "TOKEN",
-      "content": {
-        "type": "PREC",
-        "value": 3,
-        "content": {
-          "type": "PATTERN",
-          "value": "#\\d+"
-        }
-      }
-    },
-    "user": {
-      "type": "TOKEN",
-      "content": {
-        "type": "PREC",
-        "value": 4,
-        "content": {
-          "type": "PATTERN",
-          "value": "@[a-zA-Z0-9_-]+"
-        }
-      }
-    },
-    "_rest": {
-      "type": "REPEAT1",
-      "content": {
-        "type": "CHOICE",
-        "members": [
-          {
-            "type": "PATTERN",
-            "value": ".*"
-          },
-          {
-            "type": "SYMBOL",
-            "name": "_newline"
-          }
-        ]
-      }
-    },
-    "_newline": {
-      "type": "PATTERN",
-      "value": "\\r?\\n"
     }
   },
   "extras": [
     {
       "type": "PATTERN",
-      "value": "[\\t\\f\\v ]+"
+      "value": "\\s"
     }
   ],
   "conflicts": [],

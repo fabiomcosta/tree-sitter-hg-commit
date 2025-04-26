@@ -14,6 +14,8 @@
 //
 // Tags:
 //
+// Differential Revision:
+//
 // HG: Comment
 
 const SECTIONS = Object.entries({
@@ -35,11 +37,11 @@ const SECTIONS = Object.entries({
   tags: {
     name: "Tags",
   },
-  privacy_context_container: {
-    name: "Privacy Context Container",
-  },
   differential_revision: {
     name: " Differential Revision",
+  },
+  privacy_context_container: {
+    name: "Privacy Context Container",
   },
   reviewed_by: {
     name: "Reviewed By",
@@ -51,14 +53,6 @@ const SECTIONS = Object.entries({
     name: "GSD Projects",
   },
 });
-
-// (
-//   (section
-//     key: (section_key) @section-key
-//     value: (section_value) @section-value
-//   )
-//   (#eq? @section-key "Test Plan")
-// )
 
 module.exports = grammar({
   name: "hgcommit",

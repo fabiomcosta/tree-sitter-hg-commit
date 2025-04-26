@@ -23,7 +23,7 @@ enum ts_symbol_identifiers {
   sym_comment = 1,
   sym_text = 2,
   sym_section_key = 3,
-  anon_sym_COLON = 4,
+  sym_separator = 4,
   sym_source_file = 5,
   sym_section_value = 6,
   sym_title = 7,
@@ -37,7 +37,7 @@ static const char * const ts_symbol_names[] = {
   [sym_comment] = "comment",
   [sym_text] = "text",
   [sym_section_key] = "section_key",
-  [anon_sym_COLON] = ":",
+  [sym_separator] = "separator",
   [sym_source_file] = "source_file",
   [sym_section_value] = "section_value",
   [sym_title] = "title",
@@ -51,7 +51,7 @@ static const TSSymbol ts_symbol_map[] = {
   [sym_comment] = sym_comment,
   [sym_text] = sym_text,
   [sym_section_key] = sym_section_key,
-  [anon_sym_COLON] = anon_sym_COLON,
+  [sym_separator] = sym_separator,
   [sym_source_file] = sym_source_file,
   [sym_section_value] = sym_section_value,
   [sym_title] = sym_title,
@@ -77,9 +77,9 @@ static const TSSymbolMetadata ts_symbol_metadata[] = {
     .visible = true,
     .named = true,
   },
-  [anon_sym_COLON] = {
+  [sym_separator] = {
     .visible = true,
-    .named = false,
+    .named = true,
   },
   [sym_source_file] = {
     .visible = true,
@@ -1187,7 +1187,7 @@ static bool ts_lex(TSLexer *lexer, TSStateId state) {
       ACCEPT_TOKEN(sym_section_key);
       END_STATE();
     case 210:
-      ACCEPT_TOKEN(anon_sym_COLON);
+      ACCEPT_TOKEN(sym_separator);
       END_STATE();
     default:
       return false;
@@ -1214,7 +1214,7 @@ static const uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [ts_builtin_sym_end] = ACTIONS(1),
     [sym_comment] = ACTIONS(1),
     [sym_section_key] = ACTIONS(1),
-    [anon_sym_COLON] = ACTIONS(1),
+    [sym_separator] = ACTIONS(1),
   },
   [STATE(1)] = {
     [sym_source_file] = STATE(10),
@@ -1292,7 +1292,7 @@ static const uint16_t ts_small_parse_table[] = {
       ts_builtin_sym_end,
   [75] = 1,
     ACTIONS(39), 1,
-      anon_sym_COLON,
+      sym_separator,
 };
 
 static const uint32_t ts_small_parse_table_map[] = {

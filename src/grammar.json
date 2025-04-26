@@ -102,6 +102,10 @@
       "type": "SYMBOL",
       "name": "section_value"
     },
+    "separator": {
+      "type": "STRING",
+      "value": ":"
+    },
     "section": {
       "type": "SEQ",
       "members": [
@@ -117,8 +121,8 @@
           "type": "FIELD",
           "name": "separator",
           "content": {
-            "type": "STRING",
-            "value": ":"
+            "type": "SYMBOL",
+            "name": "separator"
           }
         },
         {

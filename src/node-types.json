@@ -18,8 +18,8 @@
         "required": true,
         "types": [
           {
-            "type": ":",
-            "named": false
+            "type": "separator",
+            "named": true
           }
         ]
       },
@@ -90,15 +90,15 @@
     }
   },
   {
-    "type": ":",
-    "named": false
-  },
-  {
     "type": "comment",
     "named": true
   },
   {
     "type": "section_key",
+    "named": true
+  },
+  {
+    "type": "separator",
     "named": true
   },
   {

@@ -18,6 +18,10 @@
 //
 // HG: Comment
 
+// TODO:
+// * We might want to differentiate sections that expect lists from sections
+// that expect free-form text so that we can hightlight them differently.
+
 const SECTIONS = Object.entries({
   summary: {
     name: "Summary",
@@ -67,11 +71,12 @@ module.exports = grammar({
     section_value: ($) => repeat1(choice($.text, $.comment)),
 
     title: ($) => $.section_value,
+    separator: ($) => ":",
 
     section: ($) =>
       seq(
         field("key", $.section_key),
-        field("separator", ":"),
+        field("separator", $.separator),
         field("value", optional($.section_value)),
       ),
   },
